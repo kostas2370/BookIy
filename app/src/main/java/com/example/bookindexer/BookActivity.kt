@@ -57,7 +57,6 @@ class BookActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         sessionManager = SessionManager(this)
         val token = sessionManager.fetchAuthToken().toString()
-        val apiService = ApiClient()
 
         val BOOK_ID = intent.getStringExtra("BOOK_ID")
         val IS_FAVOURITE = intent.getStringExtra("IS_FAVOURITE")

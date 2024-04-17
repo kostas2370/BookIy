@@ -16,13 +16,11 @@ import com.example.bookindexer.screens.StartScreen
 class MainActivity : ComponentActivity() {
     private lateinit var sessionManager: SessionManager
 
-    private lateinit var apiClient: ApiClient
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager(this)
-        apiClient = ApiClient()
 
         setContent {
 
