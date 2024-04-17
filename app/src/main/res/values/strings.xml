@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BookIndexer</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="title_activity_book">BookActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_book_list">BookListActivity</string>
+</resources>
