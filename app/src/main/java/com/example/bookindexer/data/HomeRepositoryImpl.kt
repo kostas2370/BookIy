@@ -7,13 +7,13 @@ import retrofit2.HttpException
 import java.io.IOException
 
 
-class HomeRepositoryImpl(private val api : ApiService, private val token : String) :
+class HomeRepositoryImpl(private val api: ApiService, private val token: String) :
     HomeRepository {
     override suspend fun getHomeBooks(): Flow<Result<HomePageBooksResponse>> {
         return flow {
             val homeBooks = try {
                 api.fetchHomePageBooks(token = token)
-            }catch (e: IOException) {
+            } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow
@@ -21,7 +21,7 @@ class HomeRepositoryImpl(private val api : ApiService, private val token : Strin
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow
-            }  catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow

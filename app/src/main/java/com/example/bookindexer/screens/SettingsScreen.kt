@@ -32,12 +32,12 @@ import com.example.bookindexer.api.RetrofitInstance
 import kotlinx.coroutines.launch
 
 @Composable
-fun SettingsScreen(token : String, navController: NavController){
+fun SettingsScreen(token: String, navController: NavController) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var new_password by remember { mutableStateOf("") }
-    var password_ver by remember { mutableStateOf("") }
-    var old_password by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
+    var passwordVer by remember { mutableStateOf("") }
+    var oldPassword by remember { mutableStateOf("") }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -49,16 +49,21 @@ fun SettingsScreen(token : String, navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Text(text = "Settings Page:",  fontWeight = FontWeight.Bold ,fontSize = 30.sp,modifier= Modifier.padding(top = 80.dp))
+        Text(
+            text = "Settings Page:",
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp,
+            modifier = Modifier.padding(top = 80.dp)
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
 
-            OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username ") },
-                modifier = Modifier,
-            )
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Username ") },
+            modifier = Modifier,
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -70,8 +75,8 @@ fun SettingsScreen(token : String, navController: NavController){
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = new_password,
-            onValueChange = { new_password = it },
+            value = newPassword,
+            onValueChange = { newPassword = it },
             label = { Text("New Password") },
             modifier = Modifier,
             visualTransformation = PasswordVisualTransformation()
@@ -79,8 +84,8 @@ fun SettingsScreen(token : String, navController: NavController){
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = password_ver,
-            onValueChange = { password_ver = it },
+            value = passwordVer,
+            onValueChange = { passwordVer = it },
             label = { Text("Password verification") },
             modifier = Modifier,
             visualTransformation = PasswordVisualTransformation()
@@ -88,8 +93,8 @@ fun SettingsScreen(token : String, navController: NavController){
         Spacer(modifier = Modifier.height(46.dp))
 
         OutlinedTextField(
-            value = old_password,
-            onValueChange = { old_password = it },
+            value = oldPassword,
+            onValueChange = { oldPassword = it },
             label = { Text("Old Password") },
             modifier = Modifier,
             visualTransformation = PasswordVisualTransformation()
@@ -98,46 +103,45 @@ fun SettingsScreen(token : String, navController: NavController){
 
         Button(
             onClick = {
-                      if (new_password != ""){
-                          if (new_password != password_ver){
-                              Toast.makeText(context, "Wrong password Verification", Toast.LENGTH_LONG).show()
-                              return@Button
-                          }
+                if (newPassword != "") {
+                    if (newPassword != passwordVer) {
+                        Toast.makeText(context, "Wrong password Verification", Toast.LENGTH_LONG)
+                            .show()
+                        return@Button
+                    }
 
 
-                      }
-                if (old_password.equals("") ){
-                    Toast.makeText(context, "You need to add the old password", Toast.LENGTH_LONG).show()
+                }
+                if (oldPassword == "") {
+                    Toast.makeText(context, "You need to add the old password", Toast.LENGTH_LONG)
+                        .show()
                     return@Button
-            }
+                }
 
                 coroutineScope.launch {
                     try {
-                        val response =
-                            RetrofitInstance.api.
-                            updateProfile(token
-                                ,username,
+
+                            RetrofitInstance.api.updateProfile(
+                                token, username,
                                 email,
-                                old_password,
-                                new_password)
+                                oldPassword,
+                                newPassword
+                            )
 
                         navController.navigate("Home")
 
 
-
                     } catch (e: Exception) {
-                        if (e.localizedMessage.equals("HTTP 400 Bad Request")){
+                        if (e.localizedMessage.equals("HTTP 400 Bad Request")) {
                             Toast.makeText(
                                 context,
                                 "Wrong old password",
-                                Toast.LENGTH_LONG)
+                                Toast.LENGTH_LONG
+                            )
                                 .show()
                         }
                     }
                 }
-
-
-
 
 
             },
@@ -147,7 +151,8 @@ fun SettingsScreen(token : String, navController: NavController){
             shape = RoundedCornerShape(15.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Black,
-                contentColor = Color.White)
+                contentColor = Color.White
+            )
 
         ) {
             Text("Update")

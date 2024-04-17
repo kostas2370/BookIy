@@ -11,10 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 
 @Composable
-fun SearchScreen(){
+fun SearchScreen() {
 
     Column(
         modifier = Modifier
@@ -23,6 +22,6 @@ fun SearchScreen(){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Search Page:",  fontWeight = FontWeight.Bold ,fontSize = 30.sp)
+        Text(text = "Search Page:", fontWeight = FontWeight.Bold, fontSize = 30.sp)
     }
 }

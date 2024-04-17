@@ -24,13 +24,17 @@ import com.example.bookindexer.Model.HomeViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Bar(navController: NavController, viewModel: HomeViewModel, favouriteViewModel: FavouriteViewModel) {
+fun Bar(
+    navController: NavController,
+    viewModel: HomeViewModel,
+    favouriteViewModel: FavouriteViewModel
+) {
     val items = listOf(
         BottomNavigationItem(
             title = "Home",
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
-            ),
+        ),
         BottomNavigationItem(
             title = "Favourites",
             selectedIcon = Icons.Filled.Star,
@@ -55,8 +59,12 @@ fun Bar(navController: NavController, viewModel: HomeViewModel, favouriteViewMod
             NavigationBarItem(
                 selected = selectedItemIndex == index,
                 onClick = {
-                    if(item.title == "Home"){viewModel.loadBooks()}
-                    if(item.title == "Favourites"){favouriteViewModel.loadFavourite()}
+                    if (item.title == "Home") {
+                        viewModel.loadBooks()
+                    }
+                    if (item.title == "Favourites") {
+                        favouriteViewModel.loadFavourite()
+                    }
 
                     selectedItemIndex = index
                     navController.navigate(item.title)

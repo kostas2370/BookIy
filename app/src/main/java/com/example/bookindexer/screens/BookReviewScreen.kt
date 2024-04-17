@@ -31,23 +31,33 @@ import com.example.bookindexer.data.OwnReview
 import kotlinx.coroutines.launch
 
 @Composable
-fun bookReview(id: String?, token: String, navController: NavController,
-               bookViewModel : BookViewModel, reviewViewModel: BookReviewViewModel, bookown : OwnReview
-){
+fun BookReview(
+    id: String?, token: String, navController: NavController,
+    bookViewModel: BookViewModel, reviewViewModel: BookReviewViewModel, bookown: OwnReview
+) {
 
     var review by remember { mutableStateOf(bookown.review) }
     val coroutineScope = rememberCoroutineScope()
     val ratingState = remember { mutableIntStateOf(bookown.score) }
-    Column(horizontalAlignment = Alignment.CenterHorizontally){
-        UserRatingBar(size = 50.dp, ratingState = ratingState, modifier = Modifier.padding(top=270.dp, start = 78.dp))
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        UserRatingBar(
+            size = 50.dp,
+            ratingState = ratingState,
+            modifier = Modifier.padding(top = 270.dp, start = 78.dp)
+        )
 
     }
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()){
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
 
         Spacer(modifier = Modifier.height(53.dp))
 
-        Text(text = "Review :",  fontWeight = FontWeight.Bold ,fontSize = 30.sp,modifier= Modifier.padding(top = 300.dp))
+        Text(
+            text = "Review :",
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp,
+            modifier = Modifier.padding(top = 300.dp)
+        )
         OutlinedTextField(
             value = review,
             onValueChange = { review = it },
@@ -64,8 +74,7 @@ fun bookReview(id: String?, token: String, navController: NavController,
                 coroutineScope.launch {
 
                     RetrofitInstance.api
-                        .postReview(token, id.toString(), review, ratingState.value.toString())
-
+                        .postReview(token, id.toString(), review, ratingState.intValue.toString())
 
 
                     bookViewModel.loadBook()
@@ -73,7 +82,8 @@ fun bookReview(id: String?, token: String, navController: NavController,
                     navController.navigate("Info")
 
 
-                }},
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
@@ -81,7 +91,8 @@ fun bookReview(id: String?, token: String, navController: NavController,
             shape = RoundedCornerShape(15.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,
-                contentColor = Color.Black)
+                contentColor = Color.Black
+            )
         ) {
             Text("Review")
         }

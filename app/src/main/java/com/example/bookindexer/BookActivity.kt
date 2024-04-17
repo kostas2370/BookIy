@@ -43,9 +43,9 @@ import com.example.bookindexer.data.BookReviewResponse
 import com.example.bookindexer.data.SessionManager
 import com.example.bookindexer.screens.BookScreen
 import com.example.bookindexer.screens.BookUserReview
-import com.example.bookindexer.screens.bookData
-import com.example.bookindexer.screens.bookReview
-import com.example.bookindexer.screens.bookbar
+import com.example.bookindexer.screens.BookData
+import com.example.bookindexer.screens.BookReview
+import com.example.bookindexer.screens.Bookbar
 import com.example.bookindexer.ui.theme.BookIndexerTheme
 
 
@@ -58,8 +58,8 @@ class BookActivity : ComponentActivity() {
         sessionManager = SessionManager(this)
         val token = sessionManager.fetchAuthToken().toString()
 
-        val BOOK_ID = intent.getStringExtra("BOOK_ID")
-        val IS_FAVOURITE = intent.getStringExtra("IS_FAVOURITE")
+        val bookID = intent.getStringExtra("BOOK_ID")
+        val isFavourite = intent.getStringExtra("IS_FAVOURITE")
 
         val bookViewModel by viewModels<BookViewModel>(factoryProducer = {
             object : ViewModelProvider.Factory {
@@ -67,7 +67,7 @@ class BookActivity : ComponentActivity() {
                     return BookViewModel(
                         BookRepositoryImpl(
                             RetrofitInstance.api,
-                            "$token", BOOK_ID.toString()
+                            token, bookID.toString()
                         )
                     )
                             as T
@@ -81,7 +81,7 @@ class BookActivity : ComponentActivity() {
                     return BookReviewViewModel(
                         BookReviewRepositoryImpl(
                             RetrofitInstance.api,
-                            "$token", BOOK_ID.toString()
+                            token, bookID.toString()
                         )
                     )
                             as T
@@ -98,8 +98,8 @@ class BookActivity : ComponentActivity() {
             val navController = rememberNavController()
 
 
-            val  book: Book = bookViewModel.book.collectAsState().value
-            val reviews : BookReviewResponse = reviewViewModel.reviews.collectAsState().value
+            val book: Book = bookViewModel.book.collectAsState().value
+            val reviews: BookReviewResponse = reviewViewModel.reviews.collectAsState().value
 
 
             BookIndexerTheme {
@@ -128,7 +128,7 @@ class BookActivity : ComponentActivity() {
                             ), navigationIcon = {
                                 IconButton(onClick = { this.finish() }) {
                                     Icon(
-                                        Icons.Filled.ArrowBack ,
+                                        Icons.Filled.ArrowBack,
                                         contentDescription = null,
                                         tint = Color.White
                                     )
@@ -141,18 +141,27 @@ class BookActivity : ComponentActivity() {
 
                         content = {
 
-                            BookScreen(book, IS_FAVOURITE.toBoolean(), token, BOOK_ID)
+                            BookScreen(book, isFavourite.toBoolean(), token, bookID)
 
                             NavHost(navController = navController, startDestination = "Info") {
 
-                                composable("Info") { bookData(book) }
-                                composable("My Review" ){ bookReview(id = BOOK_ID,token, navController, bookViewModel, reviewViewModel,book.ownreview)}
-                                composable("User Reviews"){ BookUserReview(reviews = reviews)}
+                                composable("Info") { BookData(book) }
+                                composable("My Review") {
+                                    BookReview(
+                                        id = bookID,
+                                        token,
+                                        navController,
+                                        bookViewModel,
+                                        reviewViewModel,
+                                        book.ownreview
+                                    )
+                                }
+                                composable("User Reviews") { BookUserReview(reviews = reviews) }
                             }
 
 
                         },
-                        bottomBar = { bookbar(navController) }
+                        bottomBar = { Bookbar(navController) }
 
                     )
                 }

@@ -48,9 +48,9 @@ import com.example.bookindexer.screens.SettingsScreen
 
 
 data class BottomNavigationItem(
-    val title : String,
-    val selectedIcon : ImageVector,
-    val unselectedIcon : ImageVector
+    val title: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector
 
 )
 
@@ -68,10 +68,10 @@ class HomeActivity : ComponentActivity() {
         sessionManager = SessionManager(this)
         val token = sessionManager.fetchAuthToken().toString()
 
-         val viewModel by viewModels<HomeViewModel>(factoryProducer = {
+        val viewModel by viewModels<HomeViewModel>(factoryProducer = {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return HomeViewModel(HomeRepositoryImpl(RetrofitInstance.api, "$token"))
+                    return HomeViewModel(HomeRepositoryImpl(RetrofitInstance.api, token))
                             as T
                 }
             }
@@ -80,15 +80,16 @@ class HomeActivity : ComponentActivity() {
         val favouriteViewModel by viewModels<FavouriteViewModel>(factoryProducer = {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return FavouriteViewModel(FavouriteRepositoryImpl(
-                        RetrofitInstance.api,
-                        "$token"
-                    ))
+                    return FavouriteViewModel(
+                        FavouriteRepositoryImpl(
+                            RetrofitInstance.api,
+                            token
+                        )
+                    )
                             as T
                 }
             }
         })
-
 
 
         val sessionManager = SessionManager(this)
@@ -102,68 +103,93 @@ class HomeActivity : ComponentActivity() {
 
 
 
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
 
 
-                    Scaffold(
-                        content= {
+                Scaffold(
+                    content = {
 
-                            NavHost(navController = navController, startDestination = "Home") {
+                        NavHost(navController = navController, startDestination = "Home") {
 
-                                composable("Home") { HomeScreen( viewModel,  ) }
-                                composable("Search") { SearchScreen() }
-                                composable("Favourites") { FavouritesScreen(navController, favouriteViewModel.books.collectAsState().value.books) }
-                                composable("Settings") { SettingsScreen(navController = navController, token = token) }
-
+                            composable("Home") { HomeScreen(viewModel) }
+                            composable("Search") { SearchScreen() }
+                            composable("Favourites") {
+                                FavouritesScreen(
+                                    favouriteViewModel.books.collectAsState().value.books
+                                )
                             }
-                        },
-                        topBar = {
-                            TopAppBar(
-                                colors = TopAppBarDefaults.topAppBarColors(
-                                    containerColor = Color.Black,
-                                    titleContentColor = Color.White,
-                                ),
+                            composable("Settings") {
+                                SettingsScreen(
+                                    navController = navController,
+                                    token = token
+                                )
+                            }
 
-                                title = {
-                                    Text("Bookly", fontWeight = FontWeight.Bold ,fontSize = 22.sp, textAlign = TextAlign.Center)
+                        }
+                    },
+                    topBar = {
+                        TopAppBar(
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = Color.Black,
+                                titleContentColor = Color.White,
+                            ),
 
-                                },
-                                navigationIcon = {
-                                    IconButton(onClick = { Toast.makeText(context, "Bookly", Toast.LENGTH_LONG).show() }) {
-                                        Icon(
-                                            painter =   painterResource(id = R.drawable.booklylogo),
-                                            contentDescription = "Image",
-                                            tint = Color.Unspecified,
-                                            modifier = Modifier.size(77.dp)
+                            title = {
+                                Text(
+                                    "Bookly",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 22.sp,
+                                    textAlign = TextAlign.Center
+                                )
 
-                                        )
+                            },
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    Toast.makeText(
+                                        context,
+                                        "Bookly",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.booklylogo),
+                                        contentDescription = "Image",
+                                        tint = Color.Unspecified,
+                                        modifier = Modifier.size(77.dp)
 
-                                    }
+                                    )
 
-                                },
-                                actions = {
-                                    IconButton(onClick = {
-                                        sessionManager.saveAuthToken("")
-
-                                        this@HomeActivity.finish()
-
-                                    }) {
-                                        Icon(Icons.Filled.ExitToApp, contentDescription = null, tint = Color.White)
-                                    }
                                 }
 
-                            )
+                            },
+                            actions = {
+                                IconButton(onClick = {
+                                    sessionManager.saveAuthToken("")
 
-                        },
-                        bottomBar = {Bar(navController, viewModel, favouriteViewModel)}
-                    )
-                }
+                                    this@HomeActivity.finish()
+
+                                }) {
+                                    Icon(
+                                        Icons.Filled.ExitToApp,
+                                        contentDescription = null,
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+
+                        )
+
+                    },
+                    bottomBar = { Bar(navController, viewModel, favouriteViewModel) }
+                )
             }
+        }
 
-}}
+    }
+}
 
 
 

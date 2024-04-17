@@ -2,12 +2,8 @@ package com.example.bookindexer.Model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bookindexer.data.Book
-import com.example.bookindexer.data.BookRepository
-import com.example.bookindexer.data.BookReview
 import com.example.bookindexer.data.BookReviewRepository
 import com.example.bookindexer.data.BookReviewResponse
-import com.example.bookindexer.data.OwnReview
 import com.example.bookindexer.data.Result
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

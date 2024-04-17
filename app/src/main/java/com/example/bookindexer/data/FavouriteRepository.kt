@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface FavouriteRepository {
-        suspend fun getFavouriteBooks(): Flow<Result<FavouriteBooksResponse>>
-    }
+    suspend fun getFavouriteBooks(): Flow<Result<FavouriteBooksResponse>>
+}

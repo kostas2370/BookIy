@@ -9,19 +9,22 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class SearchRepositoryImpl(private val api : ApiService, private val token : String, private val search_term : String?, private val mode  : String? = "list"):SearchRepository {
+class SearchRepositoryImpl(
+    private val api: ApiService,
+    private val token: String,
+    private val searchTerm: String?,
+    private val mode: String? = "list"
+) : SearchRepository {
 
 
-
-    var searchQuery by mutableStateOf(search_term)
-    public set
+    var searchQuery by mutableStateOf(searchTerm)
 
     override suspend fun getResults(): Flow<Result<BooksResponse>> {
 
         return flow {
             val searchBooks = try {
                 api.searchBooks(token = token, searchQuery, mode)
-            }catch (e: IOException) {
+            } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow
@@ -29,7 +32,7 @@ class SearchRepositoryImpl(private val api : ApiService, private val token : Str
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow
-            }  catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow

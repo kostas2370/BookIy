@@ -6,12 +6,16 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class BookRepositoryImpl(private val api : ApiService, private val token : String, private val id : String): BookRepository {
+class BookRepositoryImpl(
+    private val api: ApiService,
+    private val token: String,
+    private val id: String
+) : BookRepository {
     override suspend fun getBook(): Flow<Result<Book>> {
         return flow {
             val book = try {
-                api.fetchBook(token = token, id.toString())
-            }catch (e: IOException) {
+                api.fetchBook(token = token, id)
+            } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading book"))
                 return@flow
@@ -19,7 +23,7 @@ class BookRepositoryImpl(private val api : ApiService, private val token : Strin
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading book"))
                 return@flow
-            }  catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading book"))
                 return@flow

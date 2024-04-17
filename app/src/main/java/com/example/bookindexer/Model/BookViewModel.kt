@@ -6,8 +6,7 @@ import com.example.bookindexer.data.BookRepository
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bookindexer.data.FavouriteBooksResponse
-import com.example.bookindexer.data.FavouriteRepository
+
 import com.example.bookindexer.data.OwnReview
 
 import com.example.bookindexer.data.Result

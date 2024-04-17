@@ -38,21 +38,25 @@ import com.example.bookindexer.data.Book
 import kotlinx.coroutines.launch
 
 @Composable
-fun BookScreen(book: Book, IS_FAVOURITE : Boolean, token : String, id :String?){
+fun BookScreen(book: Book, isFavourite: Boolean, token: String, id: String?) {
     val coroutineScope = rememberCoroutineScope()
     val errorimage: Painter = painterResource(id = R.drawable.nocover)
 
-    Box (modifier = Modifier
-        .fillMaxWidth()
-        .height(150.dp)
-        .background(Color.Black)) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .background(Color.Black)
+    ) {
 
     }
-    Text(book.score, color = Color.Gray, fontSize = 30.sp, modifier = Modifier
-        .padding(top = 86.dp, start = 315.dp)
-        .width(150.dp))
+    Text(
+        book.score, color = Color.Gray, fontSize = 30.sp, modifier = Modifier
+            .padding(top = 86.dp, start = 315.dp)
+            .width(150.dp)
+    )
     Icon(
-        Icons.Outlined.Star ,
+        Icons.Outlined.Star,
         contentDescription = null,
         tint = Color.White,
         modifier = Modifier
@@ -60,11 +64,13 @@ fun BookScreen(book: Book, IS_FAVOURITE : Boolean, token : String, id :String?){
             .size(40.dp)
     )
 
-    AsyncImage(error=errorimage ,model = book.image, contentDescription =book.title , modifier = Modifier
-        .width(160.dp)
-        .height(273.dp)
-        .padding(top = 70.dp, start = 1.dp)
-        .fillMaxSize())
+    AsyncImage(
+        error = errorimage, model = book.image, contentDescription = book.title, modifier = Modifier
+            .width(160.dp)
+            .height(273.dp)
+            .padding(top = 70.dp, start = 1.dp)
+            .fillMaxSize()
+    )
 
 
     Surface(
@@ -75,20 +81,20 @@ fun BookScreen(book: Book, IS_FAVOURITE : Boolean, token : String, id :String?){
             .width(45.dp),
         color = Color(0x77000000)
     ) {
-        var is_liked by remember { mutableStateOf(IS_FAVOURITE) }
+        var isLiked by remember { mutableStateOf(isFavourite) }
         Icon(
             tint = Color.White,
             modifier = Modifier
                 .clickable(onClick = {
                     coroutineScope.launch {
                         try {
-                            val response = RetrofitInstance.api
+                            RetrofitInstance.api
                                 .likeBook(token, id)
 
-                            is_liked = !is_liked
+                            isLiked = !isLiked
 
                         } catch (e: Exception) {
-
+                            println("Error")
                         }
                     }
                 })
@@ -96,7 +102,7 @@ fun BookScreen(book: Book, IS_FAVOURITE : Boolean, token : String, id :String?){
                     scaleX = 0.7f
                     scaleY = 0.7f
                 },
-            imageVector = if (is_liked) {
+            imageVector = if (isLiked) {
                 Icons.Filled.Favorite
             } else {
                 Icons.Default.FavoriteBorder
@@ -106,14 +112,15 @@ fun BookScreen(book: Book, IS_FAVOURITE : Boolean, token : String, id :String?){
 
 
     }
-    Text(book.title, color = Color.Gray, fontSize = 25.sp, modifier = Modifier
-        .padding(top = 150.dp, start = 175.dp)
-        .height(350.dp)
-        .width(200.dp))
+    Text(
+        book.title, color = Color.Gray, fontSize = 25.sp, modifier = Modifier
+            .padding(top = 150.dp, start = 175.dp)
+            .height(350.dp)
+            .width(200.dp)
+    )
 
 
     Spacer(modifier = Modifier.height(100.dp))
-
 
 
 }

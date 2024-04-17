@@ -1,4 +1,5 @@
 package com.example.bookindexer.screens
+
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +38,7 @@ import com.example.bookindexer.api.RetrofitInstance
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController, onLoginSuccess: (String) -> Unit ) {
+fun LoginScreen(navController: NavController, onLoginSuccess: (String) -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
@@ -50,8 +51,8 @@ fun LoginScreen(navController: NavController, onLoginSuccess: (String) -> Unit )
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Image(painter = image,contentDescription = "", Modifier.size(410.dp))
-        Text(text = "Log in :",  fontWeight = FontWeight.Bold ,fontSize = 30.sp)
+        Image(painter = image, contentDescription = "", Modifier.size(410.dp))
+        Text(text = "Log in :", fontWeight = FontWeight.Bold, fontSize = 30.sp)
 
 
 
@@ -80,21 +81,25 @@ fun LoginScreen(navController: NavController, onLoginSuccess: (String) -> Unit )
                         onLoginSuccess(response.access)
 
                     } catch (e: Exception) {
-                        if (e.localizedMessage.equals("HTTP 401 Unauthorized")){
+                        if (e.localizedMessage.equals("HTTP 401 Unauthorized")) {
                             Toast.makeText(
                                 context,
                                 "Wrong password or wrong username",
-                                Toast.LENGTH_LONG)
+                                Toast.LENGTH_LONG
+                            )
                                 .show()
                         }
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth().height(60.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
             shape = RoundedCornerShape(15.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Black,
-                contentColor = Color.White)
+                contentColor = Color.White
+            )
 
         ) {
             Text("Log in")
@@ -105,11 +110,14 @@ fun LoginScreen(navController: NavController, onLoginSuccess: (String) -> Unit )
             onClick = {
                 navController.navigate("StartScreen")
             },
-            modifier = Modifier.fillMaxWidth().height(60.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
             shape = RoundedCornerShape(15.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,
-                contentColor = Color.Black)
+                contentColor = Color.Black
+            )
         ) {
             Text("Back")
         }

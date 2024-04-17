@@ -1,4 +1,5 @@
 package com.example.bookindexer
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,7 +18,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var sessionManager: SessionManager
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager(this)
@@ -26,12 +26,13 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "StartScreen") {
-                composable("LoginScreen") { LoginScreen(navController) { access ->
-                    sessionManager.saveAuthToken(
-                        access
-                    )
-                    val navigate = Intent(this@MainActivity, HomeActivity::class.java)
-                    startActivity(navigate)
+                composable("LoginScreen") {
+                    LoginScreen(navController) { access ->
+                        sessionManager.saveAuthToken(
+                            access
+                        )
+                        val navigate = Intent(this@MainActivity, HomeActivity::class.java)
+                        startActivity(navigate)
                     }
                 }
                 composable("RegisterScreen") { RegisterScreen(navController) }
@@ -40,14 +41,7 @@ class MainActivity : ComponentActivity() {
 
 
         }
-}
-
-
-
-
-
-
-
+    }
 
 
 }

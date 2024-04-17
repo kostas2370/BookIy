@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun RegisterScreen( navController: NavController) {
+fun RegisterScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -49,99 +49,108 @@ fun RegisterScreen( navController: NavController) {
 
     val context = LocalContext.current
 
-        Column(
-            modifier = Modifier
+    Column(
+        modifier = Modifier
 
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            Image(painter = image,contentDescription = "", Modifier.size(325.dp))
-            Text(text = "Create an account :",  fontWeight = FontWeight.Bold ,fontSize = 30.sp)
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Username") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Email") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Image(painter = image, contentDescription = "", Modifier.size(325.dp))
+        Text(text = "Create an account :", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Username") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = PasswordVisualTransformation()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
+        Button(
+            onClick = {
 
 
-                    coroutineScope.launch {
-                        try {
-                            if (username == ""){
-                                Toast.makeText(
-                                    context,
-                                    "You need to add username !",
-                                    Toast.LENGTH_LONG)
-                                    .show()
-                            }else if(password == ""){
-                                Toast.makeText(
-                                    context,
-                                    "You need to add password !",
-                                    Toast.LENGTH_LONG)
-                                    .show()
-                            }else{
-                                RetrofitInstance.api.register(username, password, email)
-                                navController.navigate("StartScreen")
-                            }
+                coroutineScope.launch {
+                    try {
+                        if (username == "") {
+                            Toast.makeText(
+                                context,
+                                "You need to add username !",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                        } else if (password == "") {
+                            Toast.makeText(
+                                context,
+                                "You need to add password !",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                        } else {
+                            RetrofitInstance.api.register(username, password, email)
+                            navController.navigate("StartScreen")
+                        }
 
-                        } catch (e: Exception) {
-                            if (e.localizedMessage.equals("HTTP 400 Bad Request")){
-                                Toast.makeText(
-                                    context,
-                                    "User with that username exists !",
-                                    Toast.LENGTH_LONG)
-                                    .show()
-                            }
-
+                    } catch (e: Exception) {
+                        if (e.localizedMessage.equals("HTTP 400 Bad Request")) {
+                            Toast.makeText(
+                                context,
+                                "User with that username exists !",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
                         }
 
                     }
-                },
 
-                modifier = Modifier.fillMaxWidth().height(60.dp),
-                shape = RoundedCornerShape(15.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Black,
-                    contentColor = Color.White)
-            ) {
-                Text("Create account")
-            }
-            Spacer(modifier = Modifier.height(22.dp))
+                }
+            },
 
-            OutlinedButton(
-                onClick = {
-                    navController.navigate("StartScreen")
-                },
-                modifier = Modifier.fillMaxWidth().height(60.dp),
-                shape = RoundedCornerShape(15.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black)
-            ) {
-                Text("Back")
-            }
-
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
+            shape = RoundedCornerShape(15.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Black,
+                contentColor = Color.White
+            )
+        ) {
+            Text("Create account")
         }
+        Spacer(modifier = Modifier.height(22.dp))
+
+        OutlinedButton(
+            onClick = {
+                navController.navigate("StartScreen")
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
+            shape = RoundedCornerShape(15.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor = Color.Black
+            )
+        ) {
+            Text("Back")
+        }
+
     }
+}

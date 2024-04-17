@@ -27,7 +27,7 @@ fun UserRatingBar(
     // 1. Parameters for UserRatingBar
     modifier: Modifier = Modifier,
     size: Dp = 64.dp,
-    is_Locked: Boolean = false,
+    isLocked: Boolean = false,
     ratingState: MutableState<Int> = remember { mutableIntStateOf(0) },
     ratingIconPainter: Painter = painterResource(id = R.drawable.ic_star),
     selectedColor: Color = Color(0xFFFFD700),
@@ -43,7 +43,7 @@ fun UserRatingBar(
                 ratingState = ratingState,
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor,
-                is_Locked = is_Locked
+                isLocked = isLocked
             )
         }
     }
@@ -59,7 +59,7 @@ fun StarIcon(
     ratingValue: Int,
     selectedColor: Color,
     unselectedColor: Color,
-    is_Locked: Boolean = false
+    isLocked: Boolean = false
 ) {
     // 4. Color Animation
     val tint by animateColorAsState(
@@ -76,7 +76,7 @@ fun StarIcon(
             .pointerInteropFilter {
                 when (it.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        if (!is_Locked){
+                        if (!isLocked) {
                             ratingState.value = ratingValue
 
                         }

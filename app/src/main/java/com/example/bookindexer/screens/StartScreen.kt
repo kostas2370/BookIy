@@ -1,4 +1,5 @@
 package com.example.bookindexer.screens
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,7 @@ import androidx.navigation.NavController
 import com.example.bookindexer.R
 
 @Composable
-fun StartScreen(navController: NavController){
+fun StartScreen(navController: NavController) {
     val image: Painter = painterResource(id = R.drawable.booklylogo)
     Column(
         modifier = Modifier
@@ -35,22 +36,25 @@ fun StartScreen(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Image(painter = image,contentDescription = "", Modifier.size(340.dp))
-        Text(text = "Welcome to Bookly ",  fontWeight = FontWeight.Bold ,fontSize = 30.sp)
+        Image(painter = image, contentDescription = "", Modifier.size(340.dp))
+        Text(text = "Welcome to Bookly ", fontWeight = FontWeight.Bold, fontSize = 30.sp)
         Spacer(modifier = Modifier.height(19.dp))
 
-        Text(text = "We are here to help you manage all your favourite books !" ,fontSize = 24.sp)
+        Text(text = "We are here to help you manage all your favourite books !", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(48.dp))
 
         Button(
             onClick = {
                 navController.navigate("LoginScreen")
             },
-            modifier = Modifier.fillMaxWidth().height(60.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
             shape = RoundedCornerShape(15.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Black,
-                contentColor = Color.White)
+                contentColor = Color.White
+            )
         ) {
             Text("Log in")
         }
@@ -59,12 +63,16 @@ fun StartScreen(navController: NavController){
             onClick = {
                 navController.navigate("RegisterScreen")
             },
-            modifier = Modifier.fillMaxWidth().height(60.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
             shape = RoundedCornerShape(15.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,
-                contentColor = Color.Black)
+                contentColor = Color.Black
+            )
         ) {
             Text("Create Account")
         }
-    }}
+    }
+}

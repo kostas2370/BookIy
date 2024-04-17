@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class FavouriteRepositoryImpl(private val api : ApiService, private val token : String) :
+class FavouriteRepositoryImpl(private val api: ApiService, private val token: String) :
     FavouriteRepository {
 
     override suspend fun getFavouriteBooks(): Flow<Result<FavouriteBooksResponse>> {
         return flow {
             val favBooks = try {
                 api.fetchFavouriteBooks(token = token)
-            }catch (e: IOException) {
+            } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow
@@ -21,7 +21,7 @@ class FavouriteRepositoryImpl(private val api : ApiService, private val token : 
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow
-            }  catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 emit(Result.Error(message = "Error loading books"))
                 return@flow

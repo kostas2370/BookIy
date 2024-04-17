@@ -1,14 +1,10 @@
 package com.example.bookindexer.Model
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bookindexer.data.Book
-import com.example.bookindexer.data.BookReviewRepository
+
 import com.example.bookindexer.data.BooksResponse
-import com.example.bookindexer.data.OwnReview
+
 import com.example.bookindexer.data.Result
 import com.example.bookindexer.data.SearchRepository
 import kotlinx.coroutines.channels.Channel
@@ -37,22 +33,24 @@ class BookSearchViewModel(private val searchRepository: SearchRepository) : View
     private val _showErrorToastChannel = Channel<Boolean>()
     val showErrorToastChannel = _showErrorToastChannel.receiveAsFlow()
 
-    fun loadSearchBook(){
-        viewModelScope.launch{
-            searchRepository.getResults().collectLatest {result -> when(result) {
+    fun loadSearchBook() {
+        viewModelScope.launch {
+            searchRepository.getResults().collectLatest { result ->
+                when (result) {
 
 
-                is Result.Success ->
+                    is Result.Success ->
 
-                    result.data?.let { books ->
-                        _results.update { books }
+                        result.data?.let { books ->
+                            _results.update { books }
+                        }
+
+                    is Result.Error -> {
+                        _showErrorToastChannel.send(true)
                     }
 
-                is Result.Error -> {
-                    _showErrorToastChannel.send(true)
+                }
             }
-
-            }
-            }
+        }
     }
-}}
+}

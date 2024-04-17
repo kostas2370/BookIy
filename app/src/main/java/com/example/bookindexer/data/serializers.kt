@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(val access: String)
 
-data class OwnReview (
+data class OwnReview(
 
     var score: Int,
     var review: String
 )
 
-data class Book (
+data class Book(
     @SerializedName("id")
     var id: Int,
     var score: String,
@@ -22,11 +22,11 @@ data class Book (
     var publisher: String,
     var shortDescription: String,
     var is_liked: Boolean,
-    var ownreview :OwnReview
+    var ownreview: OwnReview
 
 )
 
-data class BooksResponse (
+data class BooksResponse(
 
     @SerializedName("results")
     var Books: List<Book>
@@ -44,27 +44,27 @@ data class RegisterResponse(
 
 )
 
-data class HomePageBooksResponse (
+data class HomePageBooksResponse(
     var trending: List<Book>,
     var best: List<Book>
 )
 
-data class FavouriteBooksResponse (
+data class FavouriteBooksResponse(
     var count: Int,
     var books: List<Book>
 )
 
-data class BookReview (
+data class BookReview(
     var user: String,
     var score: Int,
     var review: String
 
 )
 
-data class BookReviewResponse (
+data class BookReviewResponse(
     var reviews: List<BookReview>
 )
 
-data class UpdateResponse (
+data class UpdateResponse(
     var message: String
 )

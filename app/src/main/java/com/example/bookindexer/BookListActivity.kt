@@ -39,6 +39,7 @@ import com.example.bookindexer.Model.BookSearchViewModel
 import com.example.bookindexer.api.RetrofitInstance
 import com.example.bookindexer.data.SearchRepositoryImpl
 import com.example.bookindexer.data.SessionManager
+import com.example.bookindexer.screens.SearchBook
 import com.example.bookindexer.ui.theme.BookIndexerTheme
 
 class BookListActivity : ComponentActivity() {
@@ -49,13 +50,13 @@ class BookListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         sessionManager = SessionManager(this)
         val token = sessionManager.fetchAuthToken().toString()
-        val MODE = intent.getStringExtra("MODE")
-        val search_repository = SearchRepositoryImpl(api = RetrofitInstance.api,token,"",MODE)
+        val mode = intent.getStringExtra("MODE")
+        val searchRepository = SearchRepositoryImpl(api = RetrofitInstance.api, token, "", mode)
 
         val viewModel by viewModels<BookSearchViewModel>(factoryProducer = {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return BookSearchViewModel(search_repository)
+                    return BookSearchViewModel(searchRepository)
                             as T
                 }
             }
@@ -63,7 +64,7 @@ class BookListActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            var books = viewModel.results.collectAsState().value
+            val books = viewModel.results.collectAsState().value
             BookIndexerTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -88,7 +89,7 @@ class BookListActivity : ComponentActivity() {
                             ), navigationIcon = {
                                 IconButton(onClick = { this.finish() }) {
                                     Icon(
-                                        Icons.Filled.ArrowBack ,
+                                        Icons.Filled.ArrowBack,
                                         contentDescription = null,
                                         tint = Color.White
                                     )
@@ -101,24 +102,27 @@ class BookListActivity : ComponentActivity() {
                             Column(
                                 Modifier
                                     .verticalScroll(rememberScrollState())
-                                    .padding(top = 70.dp)){
+                                    .padding(top = 70.dp)
+                            ) {
                                 Text(
-                                    text = "${MODE.toString().uppercase()} Books",
+                                    text = "${mode.toString().uppercase()} Books",
                                     fontSize = 30.sp,
                                     modifier = Modifier.align(Alignment.CenterHorizontally)
                                 )
-                            books.Books.forEachIndexed { _, item ->
-                                Column(Modifier.background(Color.Gray)) {
+                                books.Books.forEachIndexed { _, item ->
+                                    Column(Modifier.background(Color.Gray)) {
 
-                                    searchbook(item)
+                                        SearchBook(item)
 
+                                    }
                                 }
-                            }}})
-                }
+                            }
+                        })
                 }
             }
         }
     }
+}
 
 
 @Composable
