@@ -1,5 +1,6 @@
 # Bookly
 This is a bookly , an app that can help you find your favourite books !
+Backend made with django-drf
 
 Screens :
 
